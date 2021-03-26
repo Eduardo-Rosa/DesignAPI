@@ -1,0 +1,79 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Especificação de relatório de desempenho do crescimento
+  description: Especificação de relatório de desempenho do crescimento
+contact:
+    email: edu.betim@yahoo.com.br
+security: 
+  - application:
+    - read
+    - write
+paths:
+  /accounts/{email}/progress:
+    parameters:
+      - name: email
+        in: path
+        required: true
+        description: email de identificação da conta de usuário
+        schema:
+          type: string
+      - name: token
+        in: header
+        description: Token JWT no header
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+            format: string
+        style: simple
+        example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ
+            iOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ
+    get:
+      summary: Recuperar o progresso de crescimento das crianças pelo email da conta de usuário
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/body_response'
+        400:
+          description: Dados request enviados incorretos
+        401:
+          description: Token invalido, inexistente ou expirado
+        404:
+          description: Recurso {email} não encontrado
+        500:
+          description: erro no servidor
+components:
+  schemas:
+    body_response:
+      type: object
+      required:
+        - height
+        - wight
+        - headerCircunference
+        - dateProgress
+      properties:
+        height:
+          type: number
+          example: 1.02
+        weight:
+          type: number
+          example: 45 
+        headerCircunference:
+          type: number
+          example: 0.45
+        dateProgress:
+          type: string
+          format: date
+          example: 12/12/2020
+
+
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/edurosa/especificacao_relatorioo_crescimento/1.0.0

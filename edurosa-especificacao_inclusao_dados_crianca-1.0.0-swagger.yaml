@@ -1,0 +1,249 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Especificação de inclusão dos dados da criança
+  description: Especificação de inclusão dos dados da criança
+  contact:
+    email: edu.betim@yahoo.com.br
+security: 
+  - application:
+    - read
+    - write
+paths:
+  /progress:
+    parameters:
+      - name: token
+        in: header
+        description: Token JWT no header
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+            format: string
+        style: simple
+        example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ
+            iOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ
+    get:
+      summary: Recuperar todas os progresso de todas as contas
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/body_response'
+        400:
+          description: Dados request enviados incorretos
+        401:
+          description: Token invalido, inexistente ou expirado
+        500:
+          description: erro no servidor
+    post:
+      summary: Cria um novo progresso progresso de todas as contas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_request'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/body_response'
+        400:
+          description: Dados request enviados incorretos
+        401:
+          description: Token invalido, inexistente ou expirado
+        500:
+          description: erro no servidor
+  /progress/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Id de identificação do progresso
+        schema:
+          type: string
+      - name: token
+        in: header
+        description: Token JWT no header
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+            format: string
+        style: simple
+        example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ
+            iOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ
+    get:
+      summary: Recuperar um progresso pelo id
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/body_response'
+        400:
+          description: Dados request enviados incorretos
+        401:
+          description: Token invalido, inexistente ou expirado
+        404:
+          description: Recurso {id} não encontrado
+        500:
+          description: erro no servidor
+    put:
+      summary: Atualizar um progresso pelo id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_request'
+      responses:
+        200:
+          description: Accept
+        400:
+          description: Dados request enviados incorretos
+        401:
+          description: Token invalido, inexistente ou expirado
+        404:
+          description: Recurso {id} não encontrado
+        500:
+          description: erro no servidor
+    delete:
+      summary: Excluir um progresso pelo id
+      responses:
+        204:
+          description: No content
+        400:
+          description: Dados request enviados incorretos
+        401:
+          description: Token invalido, inexistente ou expirado
+        404:
+          description: Recurso {id} não encontrado
+        500:
+          description: erro no servido
+components:
+  schemas:
+    body_response:
+      type: object
+      required:
+        - id
+        - height
+        - wight
+        - headerCircunference
+        - dateProgress
+        - account
+      properties:
+        id:
+          type: integer
+          example: 1
+        height:
+          type: number
+          example: 1.02
+        weight:
+          type: number
+          example: 45 
+        headerCircunference:
+          type: number
+          example: 0.45
+        dateProgress:
+          type: string
+          format: date
+          example: 12/12/2020
+        account:
+          type: object
+          required: 
+            - id
+            - firstName
+            - lastName
+            - email
+            - dateBirth
+            - gender
+          properties:
+            id:
+              type: integer
+              example: 1
+            firstName:
+              type: string
+              example: First
+            lastName:
+              type: string
+              example: Last
+            email:
+              type: string
+              format: email
+              example: admin@admin.com
+            dateBirth:
+              type: string
+              format: date
+              example: 10/10/2000
+            gender:
+              type: string
+              example: M
+              enum:
+                - M
+                - F
+    body_request:
+      type: object
+      required:
+        - height
+        - wight
+        - headerCircunference
+        - dateProgress
+        - account
+      properties:
+        height:
+          type: number
+          example: 1.02
+        weight:
+          type: number
+          example: 45 
+        headerCircunference:
+          type: number
+          example: 0.45
+        dateProgress:
+          type: string
+          format: date
+          example: 12/12/2020
+        account:
+          type: object
+          required: 
+            - id
+            - firstName
+            - lastName
+            - email
+            - dateBirth
+            - gender
+          properties:
+            id:
+              type: integer
+              example: 1
+            firstName:
+              type: string
+              example: First
+            lastName:
+              type: string
+              example: Last
+            email:
+              type: string
+              format: email
+              example: admin@admin.com
+            dateBirth:
+              type: string
+              format: date
+              example: 10/10/2000
+            gender:
+              type: string
+              example: M
+              enum:
+                - M
+                - F

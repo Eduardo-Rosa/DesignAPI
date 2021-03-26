@@ -1,0 +1,70 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Especificacao_autenticacao_usuario
+  description: Especificacao de autenticacao de usuario
+  contact:
+    email: edu.betim@yahoo.com.br
+paths: 
+  /login:
+    post:
+      summary: Login Usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/body_request'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/body_response'
+        400:
+          description: Dados request enviados incorretos
+        401:
+          description: Password incorreto
+        404:
+          description: Usuário não encontrado
+        500:
+                        description: Erro no servidor
+components:
+  schemas:
+    body_request:
+      type: object
+      required: 
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          minimum: 1
+          example: admin  
+          format: email
+        password:
+          type: string
+          minimum: 1
+          example: 123  
+          format: password
+    body_response:
+      type: object
+      required:
+        - token
+        - id
+        - email
+        - firstName
+        - lastName
+      properties:
+        token:
+          type: string
+          example: >-
+            eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        account:
+          type: string
+          example:
+            id: 1
+            email: admin@admin.com
+            firstName: First
+            lastName: Last
